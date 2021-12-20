@@ -14,7 +14,9 @@ import {
   with0x,
   isValidTerraAddress,
   isValidTerraTx,
-  getRSKChainID
+  getRSKChainID,
+  isValidVerusAddress,
+  isValidVerusTx
 } from './common'
 
 const chains: { [key in ChainId]: Chain } = {
@@ -185,6 +187,21 @@ const chains: { [key in ChainId]: Chain } = {
     isValidAddress: (hexAddress: string) => isValidAddress(with0x(hexAddress)),
     formatAddress: (hexAddress: string) => toChecksumAddress(with0x(hexAddress)),
     isValidTransactionHash: (hash: string) => isValidHex(hash),
+    formatTransactionHash: (hash: string) => toLowerCaseWithout0x(hash)
+  },
+  [ChainId.Verus]: {
+    name: 'Verus',
+    code: 'VRSC',
+    nativeAsset: 'VRSC',
+    fees: {
+      unit: 'satoshi'
+    },
+    safeConfirmations: 20,
+    // ~30 blocks wait period
+    txFailureTimeout: 1600000, // in ms
+    isValidAddress: (address) => isValidVerusAddress(address),
+    formatAddress: (address) => address,
+    isValidTransactionHash: (hash: string) => isValidVerusTx(hash),
     formatTransactionHash: (hash: string) => toLowerCaseWithout0x(hash)
   }
 }
