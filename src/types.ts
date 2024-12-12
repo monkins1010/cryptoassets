@@ -7,13 +7,21 @@ export interface Chain {
   }
   safeConfirmations: number
   txFailureTimeout: number
+  evmCompatible: boolean
+  hasTokens: boolean
+  supportCustomFees: boolean
   isValidAddress: (address: string, network?: string) => boolean
   formatAddress: (address: string, network?: string) => string
   isValidTransactionHash: (hash: string) => boolean
   formatTransactionHash: (hash: string) => string
 }
 
-export type AssetType = 'native' | 'erc20'
+export enum AssetTypes {
+  native = 'native',
+  erc20 = 'erc20'
+}
+
+export type AssetType = AssetTypes.native | AssetTypes.erc20
 
 export enum ChainId {
   Bitcoin = 'bitcoin',
@@ -27,6 +35,7 @@ export enum ChainId {
   Solana = 'solana',
   Fuse = 'fuse',
   Terra = 'terra',
+  Avalanche = 'avalanche',
   Verus = 'vrsc'
 }
 
@@ -41,6 +50,7 @@ export interface Asset {
   contractAddress?: string // ERC20 only
   matchingAsset?: string
   feeAsset?: string
+  sendGasLimit: number
 }
 
 export type AssetMap = Record<string, Asset>

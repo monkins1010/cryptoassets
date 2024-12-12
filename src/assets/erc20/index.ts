@@ -3,33 +3,67 @@ import { mapValues, transform } from 'lodash'
 import ethereumTokens from './ethereum-tokens.json'
 import rskTokens from './rsk-tokens.json'
 import polygonTokens from './polygon-tokens.json'
+import avalancheTokens from './avalanche-tokens.json'
 import terraTokens from './terra-tokens.json'
+import arbitrumTokens from './arbitrum-tokens.json'
+import solanaTokens from './solana-tokens.json'
 
 import { TESTNET_CONTRACT_ADDRESSES, TESTNET_TOKENS } from '../testnet'
 import { Asset, ChainId, AssetType, AssetMap } from '../../types'
+import { sendGasLimits } from '../sendGasLimits'
 
 const rskTokensData = mapValues(rskTokens, (tokenData) => ({
   ...tokenData,
-  chain: ChainId.Rootstock
+  chain: ChainId.Rootstock,
+  sendGasLimit: sendGasLimits.ERC20_EVM
 }))
 
 const ethereumTokensData = mapValues(ethereumTokens, (tokenData) => ({
   ...tokenData,
-  chain: ChainId.Ethereum
+  chain: ChainId.Ethereum,
+  sendGasLimit: sendGasLimits.ERC20_EVM
 }))
 
 const polygonTokensData = mapValues(polygonTokens, (tokenData) => ({
   ...tokenData,
-  chain: ChainId.Polygon
+  chain: ChainId.Polygon,
+  sendGasLimit: sendGasLimits.ERC20_EVM
+}))
+
+const avalancheTokensData = mapValues(avalancheTokens, (tokenData) => ({
+  ...tokenData,
+  chain: ChainId.Avalanche,
+  sendGasLimit: sendGasLimits.ERC20_EVM
 }))
 
 const terraTokensData = mapValues(terraTokens, (tokenData) => ({
   ...tokenData,
-  chain: ChainId.Terra
+  chain: ChainId.Terra,
+  sendGasLimit: sendGasLimits.TERRA
+}))
+
+const arbitrumTokensData = mapValues(arbitrumTokens, (tokenData) => ({
+  ...tokenData,
+  chain: ChainId.Arbitrum,
+  sendGasLimit: sendGasLimits.ARBETH
+}))
+
+const solanaTokensData = mapValues(solanaTokens, (tokenData) => ({
+  ...tokenData,
+  chain: ChainId.Solana,
+  sendGasLimit: sendGasLimits.SOL
 }))
 
 const erc20Assets: AssetMap = mapValues(
-  { ...rskTokensData, ...ethereumTokensData, ...polygonTokensData, ...terraTokensData },
+  {
+    ...rskTokensData,
+    ...ethereumTokensData,
+    ...polygonTokensData,
+    ...terraTokensData,
+    ...avalancheTokensData,
+    ...arbitrumTokensData,
+    ...solanaTokensData
+  },
   (tokenData) => ({
     ...tokenData,
     type: 'erc20' as AssetType
