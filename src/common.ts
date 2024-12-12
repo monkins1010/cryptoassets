@@ -65,7 +65,7 @@ export const isValidVerusAddress = (address: string): boolean => {
 }
 
 export const isValidVerusTx = (tx: string): boolean => {
-  return isValidHex(tx) && tx.length === 64
+  return isValidHexWith0xPrefix(tx) && tx.length === 64
 }
 
 export const getRSKChainID = (network: string) => {
