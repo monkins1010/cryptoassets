@@ -248,8 +248,11 @@ const chains: { [key in ChainId]: Chain } = {
       unit: 'satoshi'
     },
     safeConfirmations: 20,
-    // ~30 blocks wait period
+    // ~20 blocks wait period
     txFailureTimeout: 1600000, // in ms
+    evmCompatible: false,
+    hasTokens: false,
+    supportCustomFees: false,
     isValidAddress: (address) => isValidVerusAddress(address),
     formatAddress: (address) => address,
     isValidTransactionHash: (hash: string) => isValidVerusTx(hash),
